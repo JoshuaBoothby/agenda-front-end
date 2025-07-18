@@ -2,7 +2,7 @@ import React, { use } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const baseUrl = "http://44.211.219.4:3000/";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const endPoint = "employees";
 
 export const TableEmployees = () => {
@@ -18,6 +18,27 @@ export const TableEmployees = () => {
   };
   const handleEdit = (id) => {
     navigate(`/editEmployees/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this employee?"
+    );
+    if (confirmDelete) {
+      try {
+        const url = `${baseUrl}${endPoint}/${id}`;
+        const response = await fetch(url, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          getEmployees();
+        } else {
+          console.error("Error deleting employee:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error deleting employee:", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -48,6 +69,12 @@ export const TableEmployees = () => {
                   onClick={() => handleEdit(employee.employee_id)}
                 >
                   Edit
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(employee.employee_id)}
+                >
+                  Delete
                 </button>
               </td>
             </tr>

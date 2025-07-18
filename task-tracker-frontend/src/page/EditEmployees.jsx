@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { EditFormEmployees } from "../component/EditFormEmployees";
 
-const baseUrl = "http://44.211.219.4:3000/";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const endPoint = "employees";
 
 export const EditEmployees = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const baseUrl = "http://44.211.219.4:3000/";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const endPoint = "employees";
 
 export const EditFormEmployees = ({ employee, onClose }) => {
