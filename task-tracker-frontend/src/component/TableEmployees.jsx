@@ -1,10 +1,12 @@
 import React, { use } from "react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const baseUrl = "http://44.211.219.4:3000/";
 const endPoint = "employees";
 
 export const TableEmployees = () => {
+  const navigate = useNavigate();
   const [dataEmployees, setDataEmployees] = useState([]);
 
   const getEmployees = async () => {
@@ -13,6 +15,9 @@ export const TableEmployees = () => {
     const data = await response.json();
     setDataEmployees(data);
     console.log(response);
+  };
+  const handleEdit = (id) => {
+    navigate(`/editEmployees/${id}`);
   };
 
   useEffect(() => {
@@ -28,6 +33,7 @@ export const TableEmployees = () => {
             <th>Name</th>
             <th>Department</th>
             <th>Role</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -36,6 +42,14 @@ export const TableEmployees = () => {
               <td>{employee.name}</td>
               <td>{employee.department}</td>
               <td>{employee.role}</td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleEdit(employee.employee_id)}
+                >
+                  Edit
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
