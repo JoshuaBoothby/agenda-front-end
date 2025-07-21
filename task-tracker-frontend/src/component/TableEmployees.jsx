@@ -1,5 +1,4 @@
-import React, { use } from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -14,8 +13,8 @@ export const TableEmployees = () => {
     const response = await fetch(url);
     const data = await response.json();
     setDataEmployees(data);
-    console.log(response);
   };
+
   const handleEdit = (id) => {
     navigate(`/editEmployees/${id}`);
   };
@@ -71,7 +70,7 @@ export const TableEmployees = () => {
                   Edit
                 </button>
                 <button
-                  className="btn btn-danger"
+                  className="btn btn-danger ms-2"
                   onClick={() => handleDelete(employee.employee_id)}
                 >
                   Delete

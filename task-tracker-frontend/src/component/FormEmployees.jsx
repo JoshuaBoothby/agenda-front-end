@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const endPoint = "employees";
@@ -9,6 +10,8 @@ export const FormEmployees = () => {
     department: "",
     role: "",
   });
+  const navigate = useNavigate();
+
   const handlerName = (e) => {
     setNewEmployee({ ...newEmployee, name: e.target.value });
   };
@@ -78,6 +81,12 @@ export const FormEmployees = () => {
           </div>
           <button className="btn btn-primary w-100">Save Data</button>
         </form>
+        <button
+          className="btn btn-secondary w-100 mt-2"
+          onClick={() => navigate("/tasks")}
+        >
+          Edit Tasks
+        </button>
       </main>
     </>
   );
