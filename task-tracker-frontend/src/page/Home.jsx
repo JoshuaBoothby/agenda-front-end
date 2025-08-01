@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const loginEndPoint = "user/auth";
-const registerEndPoint = "api/register";
+const loginEndPoint = "login";
+const registerEndPoint = "register";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export const Home = () => {
   };
 
   const registerHandler = async () => {
-    const url = `${baseUrl}/${registerEndPoint}`;
+    const url = `${baseUrl}${registerEndPoint}`;
     const result = await fetch(url, {
       method: "POST",
       body: JSON.stringify(body),
