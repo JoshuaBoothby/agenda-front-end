@@ -8,13 +8,16 @@ import { TableTasks } from "./component/TableTasks";
 import { FormTasks } from "./component/FormTasks";
 import { EditTasks } from "./page/EditTasks";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Employee />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/employees" element={<Employee />} />
         <Route path="/editEmployees/:employee_id" element={<EditEmployees />} />
         <Route
           path="/tasks"

@@ -21,6 +21,7 @@ export const EditFormTasks = ({ task, onClose }) => {
       method: "PUT",
       body: JSON.stringify(editTask),
       headers: { "Content-Type": "application/json" },
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     });
     if (onClose) onClose();
   };

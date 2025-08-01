@@ -23,6 +23,7 @@ export const FormEmployees = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     const url = baseUrl + endPoint;
     try {
       const response = await fetch(url, {
@@ -30,6 +31,7 @@ export const FormEmployees = () => {
         body: JSON.stringify(newEmployee),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();

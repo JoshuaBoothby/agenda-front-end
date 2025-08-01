@@ -26,12 +26,14 @@ export const EditFormEmployees = ({ employee, onClose }) => {
     e.preventDefault();
 
     try {
+      const token = localStorage.getItem("token");
       const url = `${baseUrl}${endPoint}/${employee.employee_id}`;
       const response = await fetch(url, {
         method: "PUT",
         body: JSON.stringify(newEmployee),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();

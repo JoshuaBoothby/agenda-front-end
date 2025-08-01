@@ -20,7 +20,10 @@ export const FormTasks = () => {
     await fetch(url, {
       method: "POST",
       body: JSON.stringify(newTask),
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
     setNewTask({ description: "", status: "", employee_id: "" });
     window.location.reload();

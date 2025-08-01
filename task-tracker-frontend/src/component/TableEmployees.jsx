@@ -9,8 +9,15 @@ export const TableEmployees = () => {
   const [dataEmployees, setDataEmployees] = useState([]);
 
   const getEmployees = async () => {
+    const token = localStorage.getItem("token");
+
     const url = `${baseUrl}${endPoint}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
     setDataEmployees(data);
   };
