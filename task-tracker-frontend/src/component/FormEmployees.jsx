@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "employees";
+const endPoint = "/employees";
 
 export const FormEmployees = () => {
   const [newEmployee, setNewEmployee] = useState({

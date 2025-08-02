@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "tasks";
+const endPoint = "/tasks";
 
 export const TableTasks = () => {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
   const getTasks = async () => {
-    const url = `${baseUrl}${endPoint}`;
-    const response = await fetch(url);
+    const token = localStorage.getItem("token");
+    const url = `${baseUrl}/tasks`;
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error(data.message || "Unauthorized or invalid response");
+    }
     setTasks(data);
   };
 
@@ -21,7 +28,15 @@ export const TableTasks = () => {
   const handleEdit = (id) => navigate(`/editTasks/${id}`);
   const handleDelete = async (id) => {
     if (window.confirm("Delete this task?")) {
-      await fetch(`${baseUrl}${endPoint}/${id}`, { method: "DELETE" });
+      const token = localStorage.getItem("token");
+      const url = `${baseUrl}/tasks/${id}`;
+      await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
       getTasks();
     }
   };

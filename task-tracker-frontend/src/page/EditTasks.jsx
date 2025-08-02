@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { EditFormTasks } from "../component/EditFormTasks";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "tasks";
+const endPoint = "/tasks";
 
 export const EditTasks = () => {
   const [task, setTask] = useState(null);
@@ -12,12 +12,24 @@ export const EditTasks = () => {
 
   useEffect(() => {
     const fetchTask = async () => {
-      const url = `${baseUrl}${endPoint}`;
-      const response = await fetch(url);
+      const token = localStorage.getItem("token");
+      const url = `${baseUrl}/employees`; // or /tasks
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await response.json();
-      const foundTask = data.find((t) => t.task_id === parseInt(task_id));
-      if (foundTask) setTask(foundTask);
-      else navigate("/");
+
+      if (!Array.isArray(data)) {
+        throw new Error(data.message || "Unauthorized or invalid response");
+      }
+      const foundTask = data.find(
+        (emp) => emp.employee_id === parseInt(task_id)
+      );
+      if (foundTask) {
+        setTask(foundTask);
+      } else {
+        navigate("/");
+      }
     };
     fetchTask();
   }, [task_id, navigate]);

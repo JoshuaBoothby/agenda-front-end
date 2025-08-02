@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "employees";
+const endPoint = "/employees";
 
 export const TableEmployees = () => {
   const navigate = useNavigate();
@@ -10,15 +10,15 @@ export const TableEmployees = () => {
 
   const getEmployees = async () => {
     const token = localStorage.getItem("token");
-
     const url = `${baseUrl}${endPoint}`;
     const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error(data.message || "Unauthorized or invalid response");
+    }
     setDataEmployees(data);
   };
 
@@ -32,15 +32,16 @@ export const TableEmployees = () => {
     );
     if (confirmDelete) {
       try {
-        const url = `${baseUrl}${endPoint}/${id}`;
-        const response = await fetch(url, {
+        const token = localStorage.getItem("token");
+        const url = `${baseUrl}/employees/${id}`; // or /tasks/${id}
+        await fetch(url, {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         });
-        if (response.ok) {
-          getEmployees();
-        } else {
-          console.error("Error deleting employee:", response.statusText);
-        }
+        getEmployees();
       } catch (error) {
         console.error("Error deleting employee:", error);
       }

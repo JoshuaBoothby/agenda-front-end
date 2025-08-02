@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "employees";
+const endPoint = "/employees";
 
 export const EditFormEmployees = ({ employee, onClose }) => {
   const [newEmployee, setNewEmployee] = useState({
@@ -27,8 +27,8 @@ export const EditFormEmployees = ({ employee, onClose }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const url = `${baseUrl}${endPoint}/${employee.employee_id}`;
-      const response = await fetch(url, {
+      const url = `${baseUrl}/employees/${employee.employee_id}`;
+      await fetch(url, {
         method: "PUT",
         body: JSON.stringify(newEmployee),
         headers: {
@@ -36,8 +36,6 @@ export const EditFormEmployees = ({ employee, onClose }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const data = await response.json();
-      console.log(data);
 
       if (onClose) {
         onClose(); // Close the edit form after successful update

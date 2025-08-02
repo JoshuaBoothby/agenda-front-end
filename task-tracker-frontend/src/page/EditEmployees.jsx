@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { EditFormEmployees } from "../component/EditFormEmployees";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "employees";
+const endPoint = "/employees";
 
 export const EditEmployees = () => {
   const [employee, setEmployee] = useState(null);
@@ -13,13 +13,19 @@ export const EditEmployees = () => {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const url = `${baseUrl}${endPoint}`;
-        const response = await fetch(url);
+        const token = localStorage.getItem("token");
+        const url = `${baseUrl}/employees`; // or /tasks
+        const response = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error(data.message || "Unauthorized or invalid response");
+        }
         const foundEmployee = data.find(
           (emp) => emp.employee_id === parseInt(employee_id)
         );
-
         if (foundEmployee) {
           setEmployee(foundEmployee);
         } else {

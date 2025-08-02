@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "tasks";
+const endPoint = "/tasks";
 
 export const EditFormTasks = ({ task, onClose }) => {
   const [editTask, setEditTask] = useState({
@@ -16,12 +16,15 @@ export const EditFormTasks = ({ task, onClose }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     const url = `${baseUrl}${endPoint}/${task.task_id}`;
     await fetch(url, {
       method: "PUT",
       body: JSON.stringify(editTask),
-      headers: { "Content-Type": "application/json" },
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (onClose) onClose();
   };

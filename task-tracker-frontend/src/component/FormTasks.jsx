@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-const endPoint = "tasks";
+const endPoint = "/tasks";
 
 export const FormTasks = () => {
   const [newTask, setNewTask] = useState({
