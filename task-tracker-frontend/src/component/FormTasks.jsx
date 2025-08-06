@@ -14,15 +14,17 @@ export const FormTasks = () => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
 
+  // When submitting a new task:
   const submitHandler = async (e) => {
     e.preventDefault();
-    const url = baseUrl + endPoint;
+    const token = localStorage.getItem("token");
+    const url = `${baseUrl}${endPoint}`;
     await fetch(url, {
       method: "POST",
       body: JSON.stringify(newTask),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     setNewTask({ description: "", status: "", employee_id: "" });

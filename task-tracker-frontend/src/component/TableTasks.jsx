@@ -47,7 +47,7 @@ export const TableTasks = () => {
         <button
           className="btn btn-secondary w-100"
           style={{ maxWidth: "400px" }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/employees")}
         >
           Back to Employees
         </button>
