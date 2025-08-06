@@ -13,28 +13,22 @@ export const EditTasks = () => {
   useEffect(() => {
     const fetchTask = async () => {
       const token = localStorage.getItem("token");
-      const url = `${baseUrl}/employees`; // or /tasks
+      const url = `${baseUrl}${endPoint}/${task_id}`;
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const data = await response.json();
-
-      if (!Array.isArray(data)) {
-        throw new Error(data.message || "Unauthorized or invalid response");
-      }
-      const foundTask = data.find(
-        (emp) => emp.employee_id === parseInt(task_id)
-      );
-      if (foundTask) {
-        setTask(foundTask);
+      if (response.ok) {
+        const data = await response.json();
+        setTask(data);
       } else {
-        navigate("/");
+        alert("Failed to load task.");
+        navigate("/tasks");
       }
     };
     fetchTask();
   }, [task_id, navigate]);
 
-  const handleClose = () => navigate("/");
+  const handleClose = () => navigate("/tasks");
 
   if (!task) return <div>Loading...</div>;
   return <EditFormTasks task={task} onClose={handleClose} />;

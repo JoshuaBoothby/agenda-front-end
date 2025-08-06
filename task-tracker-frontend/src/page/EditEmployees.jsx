@@ -14,22 +14,15 @@ export const EditEmployees = () => {
     const fetchEmployee = async () => {
       try {
         const token = localStorage.getItem("token");
-        const url = `${baseUrl}/employees`; // or /tasks
+        const url = `${baseUrl}${endPoint}/${employee_id}`;
         const response = await fetch(url, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const data = await response.json();
-
-        if (!Array.isArray(data)) {
-          throw new Error(data.message || "Unauthorized or invalid response");
-        }
-        const foundEmployee = data.find(
-          (emp) => emp.employee_id === parseInt(employee_id)
-        );
-        if (foundEmployee) {
-          setEmployee(foundEmployee);
+        if (response.ok) {
+          const data = await response.json();
+          setEmployee(data);
         } else {
-          navigate("/");
+          throw new Error("Failed to load employee");
         }
       } catch (error) {
         console.error("Error fetching employee:", error);
