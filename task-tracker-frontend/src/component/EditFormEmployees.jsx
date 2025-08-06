@@ -27,8 +27,13 @@ export const EditFormEmployees = ({ employee, onClose }) => {
 
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You are not logged in. Please log in again.");
+        if (onClose) onClose();
+        return;
+      }
       const url = `${baseUrl}${endPoint}/${employee.employee_id}`;
-      await fetch(url, {
+      const response = await fetch(url, {
         method: "PUT",
         body: JSON.stringify(newEmployee),
         headers: {
@@ -37,8 +42,17 @@ export const EditFormEmployees = ({ employee, onClose }) => {
         },
       });
 
-      if (onClose) {
-        onClose(); // Close the edit form after successful update
+      if (response.status === 401) {
+        alert("Session expired. Please log in again.");
+        if (onClose) onClose();
+        return;
+      }
+
+      if (response.ok) {
+        if (onClose) onClose();
+      } else {
+        const errorText = await response.text();
+        alert("Failed to update employee: " + errorText);
       }
     } catch (error) {
       console.error("Error updating employee:", error);

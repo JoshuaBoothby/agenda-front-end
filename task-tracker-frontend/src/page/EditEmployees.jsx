@@ -34,7 +34,7 @@ export const EditEmployees = () => {
   }, [employee_id, navigate]);
 
   const handleClose = () => {
-    navigate("/");
+    navigate("/employees");
   };
 
   if (!employee) {
