@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const endPoint = "/tasks";
@@ -10,6 +11,8 @@ export const EditFormTasks = ({ task, onClose }) => {
     employee_id: task?.employee_id || "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setEditTask({ ...editTask, [e.target.name]: e.target.value });
   };
@@ -18,7 +21,7 @@ export const EditFormTasks = ({ task, onClose }) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const url = `${baseUrl}${endPoint}/${task.task_id}`;
-    await fetch(url, {
+    const response = await fetch(url, {
       method: "PUT",
       body: JSON.stringify(editTask),
       headers: {
@@ -26,7 +29,11 @@ export const EditFormTasks = ({ task, onClose }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (onClose) onClose();
+    if (response.ok) {
+      navigate("/tasks");
+    } else {
+      alert("Failed to update task.");
+    }
   };
 
   return (
