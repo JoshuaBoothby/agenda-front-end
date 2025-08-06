@@ -27,7 +27,7 @@ export const EditFormEmployees = ({ employee, onClose }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const url = `${baseUrl}/employees/${employee.employee_id}`;
+      const url = `${baseUrl}${endPoint}/${employee.employee_id}`;
       await fetch(url, {
         method: "PUT",
         body: JSON.stringify(newEmployee),

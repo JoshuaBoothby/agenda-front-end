@@ -9,7 +9,7 @@ export const TableTasks = () => {
 
   const getTasks = async () => {
     const token = localStorage.getItem("token");
-    const url = `${baseUrl}/tasks`;
+    const url = `${baseUrl}${endPoint}`;
     const response = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -29,7 +29,7 @@ export const TableTasks = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Delete this task?")) {
       const token = localStorage.getItem("token");
-      const url = `${baseUrl}/tasks/${id}`;
+      const url = `${baseUrl}${endPoint}/${id}`;
       await fetch(url, {
         method: "DELETE",
         headers: {
